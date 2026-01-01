@@ -22,7 +22,7 @@ RUN pipenv install --system --deploy
 COPY . .
 
 # Expose port
-EXPOSE 8000
+EXPOSE 9009
 
 # Run commands
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "9009"]
