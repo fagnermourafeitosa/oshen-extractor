@@ -1,8 +1,8 @@
 from src.core.config import settings
 
 def test_webhook_evolution_success(client, mocker):
-    # Mock the push method of the queue_service instance imported in webhook module
-    mock_push = mocker.patch("src.api.v1.endpoints.webhook.queue_service.push")
+    # Mock the push method of the stream_service instance imported in webhook module
+    mock_push = mocker.patch("src.api.v1.endpoints.webhook.stream_service.push")
     
     payload = {
         "event": "MESSAGES_UPSERT", 
@@ -28,7 +28,7 @@ def test_webhook_evolution_success(client, mocker):
     assert pushed_data["raw"] == payload
 
 def test_webhook_evolution_extended_text(client, mocker):
-    mock_push = mocker.patch("src.api.v1.endpoints.webhook.queue_service.push")
+    mock_push = mocker.patch("src.api.v1.endpoints.webhook.stream_service.push")
     
     payload = {
         "event": "MESSAGES_UPSERT", 
@@ -48,7 +48,7 @@ def test_webhook_evolution_extended_text(client, mocker):
     assert args[0]["message"] == "link https://google.com"
 
 def test_webhook_evolution_ignored(client, mocker):
-    mock_push = mocker.patch("src.api.v1.endpoints.webhook.queue_service.push")
+    mock_push = mocker.patch("src.api.v1.endpoints.webhook.stream_service.push")
     headers = {"x-token": settings.OSHEN_EXTRACTOR_TOKEN}
     
     # Evento errado
@@ -63,7 +63,7 @@ def test_webhook_evolution_ignored(client, mocker):
     mock_push.assert_not_called()
 
 def test_webhook_evolution_unauthorized(client, mocker):
-    mock_push = mocker.patch("src.api.v1.endpoints.webhook.queue_service.push")
+    mock_push = mocker.patch("src.api.v1.endpoints.webhook.stream_service.push")
     payload = {"event": "MESSAGES_UPSERT"}
     
     # Missing header

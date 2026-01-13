@@ -1,6 +1,6 @@
 import logging
 from fastapi import APIRouter, Request, HTTPException
-from src.services.queue_service import QueueService
+from src.services.stream_service import StreamService
 from src.core.config import settings
 
 logger = logging.getLogger(__name__)
@@ -54,9 +54,9 @@ logger = logging.getLogger(__name__)
 # SIGTERM / SIGINT: Quando você der um docker compose down ou deployar na Hostinger, o worker avisa o Redis: "Terminei o que estava fazendo, agora pode me desligar". Sem isso, mensagens no meio do parsing somem.
 
 router = APIRouter()
-queue_service = QueueService()
+stream_service = StreamService()
 
-QUEUE_KEY = settings.WHATSAPP_REDIS_QUEUENAME
+QUEUE_KEY = settings.WHATSAPP_REDIS_STREAM
 
 @router.post("")
 async def evolution_webhook(req: Request):
@@ -80,7 +80,7 @@ async def evolution_webhook(req: Request):
 
     logger.info(f"Processing message from {data.get('pushName')}: {message[:50]}...")
 
-    queue_service.push({
+    stream_service.push({
         "group_id": data.get("key", {}).get("remoteJid"),
         "group_name": data.get("pushName"),
         "message": message,

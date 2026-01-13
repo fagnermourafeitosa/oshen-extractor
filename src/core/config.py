@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     REDIS_PORT: int = 6379
     REDIS_PASSWORD: str | None = None
 
-    WHATSAPP_REDIS_QUEUENAME: str = "oshen-whatsapp-messages"
+    WHATSAPP_REDIS_STREAM: str = "oshen-whatsapp-messages"
 
     class Config:
         env_file = ".env"
