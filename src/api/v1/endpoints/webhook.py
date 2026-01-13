@@ -61,9 +61,10 @@ QUEUE_KEY = settings.WHATSAPP_REDIS_STREAM
 @router.post("")
 async def evolution_webhook(req: Request):
     payload = await req.json()
+    event = payload.get("event", "").upper()
     logger.info(f"Received webhook payload event: {payload.get('event')}")
 
-    if payload.get("event") != "MESSAGES_UPSERT":
+    if event not in ["MESSAGES_UPSERT", "MESSAGES.UPSERT"]:
         logger.info(f"Ignoring event type: {payload.get('event')}")
         return {"ignored": True}
 

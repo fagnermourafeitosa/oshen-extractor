@@ -27,6 +27,26 @@ def test_webhook_evolution_success(client, mocker):
     assert pushed_data["message"] == "teste"
     assert pushed_data["raw"] == payload
 
+def test_webhook_evolution_lowercase_dot_event(client, mocker):
+    mock_push = mocker.patch("src.api.v1.endpoints.webhook.stream_service.push")
+    
+    payload = {
+        "event": "messages.upsert", 
+        "data": {
+            "key": {"remoteJid": "123@g.us"},
+            "message": {"conversation": "teste lowercase"}
+        }
+    }
+    headers = {"x-token": settings.OSHEN_EXTRACTOR_TOKEN}
+    
+    response = client.post("/evolution", json=payload, headers=headers)
+    
+    assert response.status_code == 200
+    assert response.json() == {"ok": True}
+    
+    args, _ = mock_push.call_args
+    assert args[0]["message"] == "teste lowercase"
+
 def test_webhook_evolution_extended_text(client, mocker):
     mock_push = mocker.patch("src.api.v1.endpoints.webhook.stream_service.push")
     
