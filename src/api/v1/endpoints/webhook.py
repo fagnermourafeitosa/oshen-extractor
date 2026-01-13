@@ -55,7 +55,7 @@ queue_service = QueueService()
 
 QUEUE_KEY = settings.WHATSAPP_REDIS_QUEUENAME
 
-@router.post("/")
+@router.post("")
 async def evolution_webhook(req: Request):
     payload = await req.json()
 
