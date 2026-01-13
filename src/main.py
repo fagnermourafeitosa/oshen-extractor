@@ -11,5 +11,7 @@ def read_root():
     return {"message": "Welcome to Oshen Extractor API"}
 
 
-app.include_router(webhook.router, prefix="/webhook", tags=["webhook"], dependencies=[Depends(verify_token)])
+
 app.include_router(api_router, prefix=settings.API_V1, dependencies=[Depends(verify_token)])
+
+app.include_router(webhook.router, prefix="/evolution", tags=["evolution"], dependencies=[Depends(verify_token)])

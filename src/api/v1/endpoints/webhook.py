@@ -55,7 +55,7 @@ queue_service = QueueService()
 
 QUEUE_KEY = settings.WHATSAPP_REDIS_QUEUENAME
 
-@router.post("/evolution")
+@router.post("/")
 async def evolution_webhook(req: Request):
     payload = await req.json()
 
@@ -68,11 +68,11 @@ async def evolution_webhook(req: Request):
     if not message:
         return {"ignored": True}
 
-    redis.lpush(QUEUE_KEY, json.dumps({
+    queue_service.push({
         "group_id": data["key"]["remoteJid"],
         "group_name": data.get("pushName"),
         "message": message,
         "timestamp": data.get("messageTimestamp")
-    }))
+    })
 
     return {"ok": True}        
