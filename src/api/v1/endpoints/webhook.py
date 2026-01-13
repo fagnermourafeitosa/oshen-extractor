@@ -58,8 +58,10 @@ QUEUE_KEY = settings.WHATSAPP_REDIS_QUEUENAME
 @router.post("")
 async def evolution_webhook(req: Request):
     payload = await req.json()
+    print(f"DEBUG: Received webhook payload event: {payload.get('event')}")
 
     if payload.get("event") != "MESSAGES_UPSERT":
+        print(f"DEBUG: Ignoring event type: {payload.get('event')}")
         return {"ignored": True}
 
     data = payload.get("data", {})
@@ -70,7 +72,10 @@ async def evolution_webhook(req: Request):
               message_obj.get("extendedTextMessage", {}).get("text")
 
     if not message:
+        print(f"DEBUG: No message content found in payload data: {data}")
         return {"ignored": True}
+
+    print(f"DEBUG: Processing message from {data.get('pushName')}: {message[:50]}...")
 
     queue_service.push({
         "group_id": data.get("key", {}).get("remoteJid"),
