@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
+# Enable real-time logging
+ENV PYTHONUNBUFFERED=1
+
 # Install pipenv
 RUN pip install pipenv
 
