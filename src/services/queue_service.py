@@ -1,6 +1,9 @@
+import logging
 import json
 import redis
 from src.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 class QueueService:
     def __init__(self):
@@ -11,7 +14,7 @@ class QueueService:
             decode_responses=True
         )
         self.queue_name = settings.WHATSAPP_REDIS_QUEUENAME
-        print(f"DEBUG: QueueService initialized for {self.queue_name} on {settings.REDIS_HOST}:{settings.REDIS_PORT}")
+        logger.info(f"QueueService initialized for {self.queue_name} on {settings.REDIS_HOST}:{settings.REDIS_PORT}")
 
     def push(self, payload: dict) -> None:
         """
@@ -19,7 +22,7 @@ class QueueService:
         """
         try:
             result = self.r.lpush(self.queue_name, json.dumps(payload))
-            print(f"DEBUG: Pushed to {self.queue_name}. New length: {result}")
+            logger.info(f"Pushed to {self.queue_name}. New length: {result}")
         except Exception as e:
-            print(f"DEBUG: Error pushing to queue {self.queue_name}: {e}")
+            logger.error(f"Error pushing to queue {self.queue_name}: {e}")
             raise e

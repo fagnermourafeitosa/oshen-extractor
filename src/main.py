@@ -3,6 +3,14 @@ from src.core.config import settings
 from src.core.deps import verify_token
 from src.api.api import api_router
 from src.api.v1.endpoints import webhook
+import logging
+
+# Configure logging to see messages in Docker console
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[logging.StreamHandler()]
+)
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
