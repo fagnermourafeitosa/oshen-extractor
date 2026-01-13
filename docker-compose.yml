@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    container_name: oshen_extractor_api
+    # Uses host networking to access the shared Redis running on the host machine
+    network_mode: "host"
+    volumes:
+      - .:/app
+    environment:
+      - OSHEN_EXTRACTOR_TOKEN=${OSHEN_EXTRACTOR_TOKEN}
+      - OSHEN_EXTRACTOR_BASE_URL=${OSHEN_EXTRACTOR_BASE_URL}
+      # If using network_mode: host, 'localhost' refers to the host machine
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - WHATSAPP_REDIS_QUEUENAME=${WHATSAPP_REDIS_QUEUENAME}
