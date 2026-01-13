@@ -1,6 +1,7 @@
 import pytest
 import os
 from unittest.mock import MagicMock
+from src.core.config import settings
 
 def test_download_instagram_endpoint(client, mocker, tmp_path):
     # Create a dummy file in a temp directory
@@ -18,9 +19,10 @@ def test_download_instagram_endpoint(client, mocker, tmp_path):
 
     response = client.post(
         "/api/v1/instagram/download",
-        json={"url": "http://instagram.com/p/123", "name": "insta-test"}
+        json={"url": "http://instagram.com/p/123", "name": "insta-test"},
+        headers={"x-token": settings.OSHEN_EXTRACTOR_TOKEN}
     )
-    
+
     # Verify response
     assert response.status_code == 200
     # FileResponse usually sets content-type based on media_type arg or guessing. 
@@ -40,7 +42,8 @@ def test_download_tiktok_endpoint(client, mocker, tmp_path):
     
     response = client.post(
         "/api/v1/tiktok/download",
-        json={"url": "http://tiktok.com/v/123", "name": "tiktok-test"}
+        json={"url": "http://tiktok.com/v/123", "name": "tiktok-test"},
+        headers={"x-token": settings.OSHEN_EXTRACTOR_TOKEN}
     )
     
     assert response.status_code == 200
@@ -59,7 +62,8 @@ def test_download_youtube_endpoint(client, mocker, tmp_path):
     
     response = client.post(
         "/api/v1/youtube/download",
-        json={"url": "http://youtube.com/w/123", "name": "yt-test", "format_type": "video"}
+        json={"url": "http://youtube.com/w/123", "name": "yt-test", "format_type": "video"},
+        headers={"x-token": settings.OSHEN_EXTRACTOR_TOKEN}
     )
     
     assert response.status_code == 200

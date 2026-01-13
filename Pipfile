@@ -10,6 +10,7 @@ yt-dlp = "*"
 python-multipart = "*"
 pydantic-settings = "*"
 httpx = "*"
+redis = "*"
 
 [dev-packages]
 pytest = "*"
