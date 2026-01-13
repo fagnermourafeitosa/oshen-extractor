@@ -63,16 +63,21 @@ async def evolution_webhook(req: Request):
         return {"ignored": True}
 
     data = payload.get("data", {})
-    message = data.get("message", {}).get("conversation")
+    message_obj = data.get("message", {})
+    
+    # Extrai o texto de diferentes formatos possíveis da Evolution API
+    message = message_obj.get("conversation") or \
+              message_obj.get("extendedTextMessage", {}).get("text")
 
     if not message:
         return {"ignored": True}
 
     queue_service.push({
-        "group_id": data["key"]["remoteJid"],
+        "group_id": data.get("key", {}).get("remoteJid"),
         "group_name": data.get("pushName"),
         "message": message,
-        "timestamp": data.get("messageTimestamp")
+        "timestamp": data.get("messageTimestamp"),
+        "raw": payload  # Enviamos o payload bruto completo conforme solicitado
     })
 
     return {"ok": True}        
