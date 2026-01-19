@@ -25,11 +25,13 @@ class StreamService:
             #TODO extract instance name from payload
             #use default for now..
             instance_name = settings.DEFAULT_EVOLUTION_INSTANCE_NAME
+            queue_name = self.queue_name(instance_name)
+
             # Redis Streams expectation for fields: value
-            result = self.r.xadd(self.queue_name, {"payload": json.dumps(payload)})
-            logger.info(f"Pushed to stream {self.queue_name}. New message ID: {result}")
+            result = self.r.xadd(queue_name, {"payload": json.dumps(payload)})
+            logger.info(f"Pushed to stream {queue_name}. New message ID: {result}")
         except Exception as e:
-            logger.error(f"Error pushing to stream {self.queue_name}: {e}")
+            logger.error(f"Error pushing to stream {queue_name}: {e}")
             raise e
     
     @property
