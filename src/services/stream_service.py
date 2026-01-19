@@ -13,7 +13,8 @@ class StreamService:
             password=settings.REDIS_PASSWORD,
             decode_responses=True
         )
-        self.queue_name = settings.WHATSAPP_REDIS_STREAM
+        #composed by instance name + '-whatsapp-messages'
+        self.queue_name_suffix = '-whatsapp-messages'
         logger.info(f"StreamService initialized for {self.queue_name} on {settings.REDIS_HOST}:{settings.REDIS_PORT}")
 
     def push(self, payload: dict) -> None:
@@ -21,9 +22,17 @@ class StreamService:
         Pushes the payload to the Redis stream.
         """
         try:
+            #TODO extract instance name from payload
+            #use default for now..
+            instance_name = settings.DEFAULT_EVOLUTION_INSTANCE_NAME
             # Redis Streams expectation for fields: value
             result = self.r.xadd(self.queue_name, {"payload": json.dumps(payload)})
             logger.info(f"Pushed to stream {self.queue_name}. New message ID: {result}")
         except Exception as e:
             logger.error(f"Error pushing to stream {self.queue_name}: {e}")
             raise e
+    
+    @property
+    def queue_name(self, instance_name: str):
+        #TODO should be replaced by instance name that coming from each message
+        return f"{instance_name}{self.queue_name_suffix}"

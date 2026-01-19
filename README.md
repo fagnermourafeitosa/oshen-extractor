@@ -27,7 +27,7 @@ API responsável por extrair mídias de redes sociais (TikTok, Instagram, YouTub
     *   `REDIS_HOST`, `REDIS_PORT`: Conexão com o Redis.
     *   `EVOLUTION_API_URL`: URL base da sua Evolution API (ex: `http://host.docker.internal:8080`).
     *   `EVOLUTION_API_KEY`: API Key global da Evolution.
-    *   `EVOLUTION_INSTANCE_NAME`: Nome da instância que receberá o webhook.
+    *   `DEFAULT_EVOLUTION_INSTANCE_NAME`: Nome da instância default que receberá o webhook. (o nome da instância será extraído do payload. como fallback, será usada a instância default)
     *   `WEBHOOK_PUBLIC_URL`: URL onde *esta* API está acessível para a Evolution (ex: `http://host.docker.internal:9009`).
 
 ## Como Rodar

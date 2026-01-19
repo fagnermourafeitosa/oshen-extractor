@@ -16,7 +16,7 @@ async def configure_evolution_webhook():
         logger.warning("WEBHOOK_PUBLIC_URL not configured. Skipping webhook registration.")
         return
 
-    instance_name = settings.EVOLUTION_INSTANCE_NAME
+    instance_name = settings.DEFAULT_EVOLUTION_INSTANCE_NAME
     base_url = settings.EVOLUTION_API_URL.rstrip("/")
     headers = {
         "apikey": settings.EVOLUTION_API_KEY,
