@@ -28,4 +28,9 @@ COPY . .
 EXPOSE 9009
 
 # Run commands
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "9009"]
+# Copy entrypoint script
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+# Run commands
+ENTRYPOINT ["./entrypoint.sh"]

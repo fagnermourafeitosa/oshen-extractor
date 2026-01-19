@@ -12,6 +12,13 @@ class Settings(BaseSettings):
 
     WHATSAPP_REDIS_STREAM: str = "oshen-whatsapp-messages"
 
+    # Evolution API Configuration
+    EVOLUTION_API_URL: str
+    EVOLUTION_API_KEY: str
+    EVOLUTION_INSTANCE_NAME: str
+    # The external URL of THIS application (Oshen Extractor) reachable by Evolution
+    WEBHOOK_PUBLIC_URL: str | None = None
+
     class Config:
         env_file = ".env"
         extra = "ignore"
