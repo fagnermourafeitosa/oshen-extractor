@@ -36,12 +36,14 @@ async def configure_evolution_webhook():
         target_url += "/evolution"
 
     data = {
-        "enabled": True,
-        "url": target_url,
-        "webhookByEvents": True,
-        "events": ["MESSAGES_UPSERT"],
-        "customHeaders": {
-            "x-token": settings.OSHEN_EXTRACTOR_TOKEN
+        "webhook": {
+            "enabled": True,
+            "url": target_url,
+            "webhookByEvents": True,
+            "events": ["MESSAGES_UPSERT"],
+            "customHeaders": {
+                "x-token": settings.OSHEN_EXTRACTOR_TOKEN
+            }
         }
     }
 
