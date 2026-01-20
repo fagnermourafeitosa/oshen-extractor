@@ -32,8 +32,8 @@ async def configure_evolution_webhook():
     # Construct the webhook URL for THIS application
     # Ensure no double slashes
     target_url = settings.WEBHOOK_PUBLIC_URL.rstrip("/")
-    if not target_url.endswith("/evolution"):
-        target_url += "/evolution"
+    if not target_url.endswith("/api/v1/whatsapp/webhook"):
+        target_url += "/api/v1/whatsapp/webhook"
 
     data = {
         "webhook": {
