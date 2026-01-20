@@ -16,12 +16,14 @@ class ProcessWebhookUseCase:
     async def execute(self, request: Request) -> Dict[str, Any]:
         try:
             payload = await request.json()
+            logger.info(f"Webhook received: {payload}")
         except Exception:
             raise HTTPException(status_code=400, detail="Invalid JSON")
 
         processed_data = self._parse_payload(payload)
         
         if not processed_data:
+            logger.warning("Webhook ignored (irrelevant event or empty data)")
             return {"ignored": True}
 
         instance_name = processed_data.get("instance_name")
