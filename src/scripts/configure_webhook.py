@@ -63,7 +63,7 @@ async def configure_evolution_webhook():
             "enabled": True,
             "url": target_url,
             "webhookByEvents": True,
-            "events": ["MESSAGES_UPSERT"],
+            "events": ["MESSAGES_UPSERT", "GROUP_UPSERT"],
             "headers": {
                 "x-token": settings.OSHEN_EXTRACTOR_TOKEN
             }
